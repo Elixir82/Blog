@@ -12,7 +12,7 @@ import AllPosts from './pages/AllPost.jsx'
 import AddPost from './pages/AddPost.jsx'
 import EditPost from './pages/EditPage.jsx'
 import Post from './pages/Post.jsx'
-import AuthLayout from './components/authLayout.jsx'
+import AuthLayout from './components/AuthLayout.jsx'
 let router = createBrowserRouter([{
   path: "/",
   element: <App />,
