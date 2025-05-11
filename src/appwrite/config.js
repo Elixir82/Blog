@@ -13,6 +13,7 @@ class config {
   }
 
   async createPost({ title, slug, content, featuredimage, status, userId }) {
+    console.log(featuredimage);
     try {
       return await this.databases.createDocument(conf.appwritedatabaseid, conf.appwritecollectiontid, slug, {
         title,
@@ -49,7 +50,7 @@ class config {
 
   async getPost(slug) {
     try {
-      // console.log(slug);
+      
       return await this.databases.getDocument(conf.appwritedatabaseid,conf.appwritecollectiontid,slug); 
     } catch (error) {
       console.log("Get post throws an error");
@@ -65,9 +66,8 @@ class config {
       }
     }
 
-    //file upload services
 
-    async uplaodFile(file){
+    async uploadFile(file){
       try {
         return await this.storage.createFile(conf.appwritebucketid,ID.unique(),file);
       } catch (error) {
@@ -87,12 +87,14 @@ class config {
 
     getFilePreview(fileId){
       try {
-        return this.storage.getFilePreview(conf.appwritebucketid,fileId);
+        if (!fileId) throw new Error("getFilePreview: fileId is missing");
+        return this.storage.getFilePreview(conf.appwritebucketid, fileId);
       } catch (error) {
-        console.log("Upload Image throws error");
+        console.log("getFilePreview throws error:", error.message);
         throw error;
       }
     }
+    
 }
 
 let confservices=new config();

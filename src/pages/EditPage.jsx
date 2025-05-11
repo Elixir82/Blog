@@ -1,26 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import confservices from '../appwrite/config'
-import { Container } from '../components';
-import PostForm from '../components/PostForm'
-function EditPage() {
-  let [post, setPost] = useState({});
-  let navigate = useNavigate();
-  const { slug } = useParams();
+import React, {useEffect, useState} from 'react'
+import {Container, PostForm} from '../components'
+import confservices from "../appwrite/config";
+import { useNavigate,  useParams } from 'react-router-dom';
 
-  useEffect(() => {
-    let post = confservices.getPost(slug).then(() => {
-      if (post) {
-        setPost(post);
-      } else navigate('/');
-    })
-  }, [slug, navigate])
-  return post ? (<div>
-    <Container>
-      <PostForm post={post}/>
-    </Container>
-  </div>
+function EditPost() {
+    const [post, setPosts] = useState(null)
+    const {slug} = useParams()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (slug) {
+          confservices.getPost(slug).then((post) => {
+                if (post) {
+                    setPosts(post)
+                }
+            })
+        } else {
+            navigate('/')
+        }
+    }, [slug, navigate])
+  return post ? (
+    <div className='py-8'>
+        <Container>
+            <PostForm post={post} />
+        </Container>
+    </div>
   ) : null
 }
 
-export default EditPage
+export default EditPost
